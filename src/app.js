@@ -3,6 +3,10 @@ const express = require("express")
 const app = express(); // instance of express
 
 //handle incoming req(Request Handler)
+// app.use("/", (req, res) => { // overwrites all routes no other route will work
+//     res.send("Hello from the server!");
+// });
+
 app.use("/test", (req, res) => {
     res.send("Hello from the test!");
 });
