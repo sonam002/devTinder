@@ -3,21 +3,11 @@ const express = require("express")
 const app = express(); // instance of express
 
 //Handle Auth Middleware for GET, PUT, POST...requests
-//Why do we even need middlewares? 
-// Problem : We will have to write the same logic again and again for each route
-//Solution : We can make a common route /admin which can handle all routes starting with /admin
-app.use("/admin", (req, res, next) => {
-    //Logic of fetching the data
-    const token = "xyz";
-    const isAdminAuthorized = token === "xyz";
-    if(!isAdminAuthorized){
-        res.status(401).send("Unauthorized request");
-    }else{
-        next();
-    }
-});
+//Another way of writing middlewares
+const { adminAuth, userAuth } = require("./middlewares/auth");
+app.use("/admin", adminAuth);
 
-app.get("/user", (req, res, next) => {
+app.get("/user", userAuth, (req, res, next) => {
    res.send("User Data Sent");
 });
 
