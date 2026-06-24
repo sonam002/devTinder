@@ -2,29 +2,25 @@ const express = require("express")
 
 const app = express(); // instance of express
 
-//handle incoming req(Request Handler)
-// app.use("/", (req, res) => { // overwrites all routes no other route will work
-//     res.send("Hello from the server!");
-// });
-
-app.use(
-    "/test",
-    (req, res, next) => {
-        console.log("Handling the route test");
-        next();
-    },
-    (req, res, next) => {
-        console.log("Handling the route test 2");
-        next();
-    },
-    (req, res) => {
-        console.log("Handling the route test 3");
-        res.send("3rd Response!!");
+//Why do we even need middlewares? 
+// Problem : We will have to write the same logic again and again for each route
+app.get("/admin/getAllData", (req, res) => {
+    //Logic of fetching the data
+    const token = "abcd";
+    const isAdminAuthorized = token === "xyz";
+    if(isAdminAuthorized){
+        res.send("All Data Sent");
+    }else{
+        res.status(401).send("Unauthorized request");
     }
-);
-app.use((req, res) => {
-    res.send("Hello from the serverrrrrrrrrrrr");
 });
+
+app.get("/admin/deleteUser", (req, res) => {
+    //Logic of deleting user
+    res.send("Deleted a User");
+});
+
+
 
 app.listen(3000, () => {
     console.log("Server is listening successfully on port 3000");
