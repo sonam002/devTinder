@@ -2,24 +2,28 @@ const express = require("express")
 
 const app = express(); // instance of express
 
-//Handle Auth Middleware for GET, PUT, POST...requests
-//Another way of writing middlewares
-const { adminAuth, userAuth } = require("./middlewares/auth");
-app.use("/admin", adminAuth);
-
-app.get("/user", userAuth, (req, res, next) => {
-   res.send("User Data Sent");
+app.use("/", (err, req, res, next) => {
+    if(err){
+        //log your error
+        res.status(500).send("something went wrong from top");
+    }
 });
 
-app.get("/admin/getAllData", (req, res, next) => {
-   res.send("All Data Sent");
+app.get("/getUserData", (req, res, next) => {
+    // try{
+        throw new Error("erorrr");
+        res.send("User Data Sent");
+    // }catch(err){
+    //     res.status(500).send("something error contact support team");
+    // }
 });
-
-app.get("/admin/deleteUser", (req, res) => {
-    //Logic of deleting user
-    res.send("Deleted a User");
+//Wildcard error handling
+app.use("/", (err, req, res, next) => {
+    if(err){
+        //log your error
+        res.status(500).send("something went wrong");
+    }
 });
-
 
 
 app.listen(3000, () => {
