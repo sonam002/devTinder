@@ -5,7 +5,7 @@ dns.setServers(['8.8.8.8', '8.8.4.4']);
 
 const connectDB = async () => {
     mongoose.connect(
-        "mongodb+srv://namastenode:2nr5chrzVZgr3njv@namastenode.kim6fjp.mongodb.net/"
+        "mongodb+srv://namastenode:2nr5chrzVZgr3njv@namastenode.kim6fjp.mongodb.net/devTinder"
     );
 };
 
