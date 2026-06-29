@@ -16,10 +16,10 @@ app.post("/signup", async (req, res) => {
     // const user = new User(userObj);
     //or
     const user = new User({
-      firstName : "Sonam",
+      firstName : "Astha",
       lastName : "Verma",
-      emailId : "sonam@verma.com",
-      password : "sonam@123"
+      emailId : "astha@verma.com",
+      password : "astha@123"
     });
     try{
       await user.save();
