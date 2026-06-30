@@ -10,9 +10,15 @@ app.use(express.json());
 //save userObj in User collection in database
 app.post("/signup", async (req, res) => {
   console.log(req.body); // becomes js object after line 8
-  // this will undefined we are passing the json from postman->body->raw->write json
-//In order to get this body we will need middlewares which is app.use(express.json()); activated for all routes
+    //Creating a new instance of User model
+    const user = new User(req.body);
 
+    try{
+      await user.save();
+      res.send("User Added Successfully!");
+    } catch(err){
+      res.status(400).send("Error saving the user:" + err.message);
+    }
 });
 
 connectDB()
