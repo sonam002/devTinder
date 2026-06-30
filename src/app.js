@@ -4,29 +4,15 @@ const connectDB = require("./config/database");
 const app = express(); // instance of express
 const User = require("./models/user");
 
+//this express middleware reads json object converts it to js object and adds js object back to line 12 which is req.body
+app.use(express.json()); 
+
 //save userObj in User collection in database
 app.post("/signup", async (req, res) => {
-    // const userObj = {
-    //   firstName : "Sonam",
-    //   lastName : "Verma",
-    //   emailId : "sonam@verma.com",
-    //   password : "sonam@123"
-    // } 
-    //Creating a new instance of User model
-    // const user = new User(userObj);
-    //or
-    const user = new User({
-      firstName : "Astha",
-      lastName : "Verma",
-      emailId : "astha@verma.com",
-      password : "astha@123"
-    });
-    try{
-      await user.save();
-      res.send("User Added Successfully!");
-    } catch(err){
-      res.status(400).send("Error saving the user:" + err.message);
-    }
+  console.log(req.body); // becomes js object after line 8
+  // this will undefined we are passing the json from postman->body->raw->write json
+//In order to get this body we will need middlewares which is app.use(express.json()); activated for all routes
+
 });
 
 connectDB()
