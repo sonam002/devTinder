@@ -25,12 +25,17 @@ app.post("/signup", async (req, res) => {
 app.get("/user", async (req, res) => {
   const userEmail = req.body.emailId;
   try{
-    const users = await User.find({emailId: userEmail});
-    if(users.length === 0){ //by default if user is not present then return [] empty object
+    const user = await User.findOne({emailId: userEmail});
+    if(!user){
       res.status(404).send("User not found");
     }else{
-      res.send(users);
+      res.send(user);
     }
+    // if(users.length === 0){ //by default if user is not present then return [] empty object
+    //   res.status(404).send("User not found");
+    // }else{
+    //   res.send(users);
+    // }
   }catch(err){
     res.status(400).send("something went wrong");
   }
