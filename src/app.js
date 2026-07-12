@@ -51,11 +51,30 @@ app.get("/feed", async (req, res) => {
   }
 });
 
+//Delete a user from database
 app.delete("/user", async (req, res) => {
   const userId = req.body.userId;
   try{
     const user = await User.findByIdAndDelete(userId);
     res.send("User deleted Successfully");
+  }catch(err){
+    res.status(400).send("Something went wrong");
+  }
+})
+
+//Update data of the user - Any other data apart from schema will be ignored by mongo and not be updated
+app.patch("/user", async (req, res) => {
+  const userId = req.body.userId;
+  const data = req.body;
+  try {
+    //const user = await User.findByIdAndUpdate({_id : userId}, data);
+    //how return document works? before returns document in console which was before the update 
+    // (by default return before)
+    const user = await User.findByIdAndUpdate({_id : userId}, data, {
+      returnDocument: "before", 
+    });
+    console.log(user);
+    res.send("User updated successfully");
   }catch(err){
     res.status(400).send("Something went wrong");
   }
