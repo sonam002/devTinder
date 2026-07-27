@@ -26,7 +26,7 @@ const userSchema = new mongoose.Schema({
     },
     gender: {
         type: String,
-        //custom validations
+        //custom validations - and this validate function will only work if we signup new user not for existing users.
         validate(value) {
             if(!["male", "female", "others"].includes(value)){
                 throw new Error("Gender data is not valid");
@@ -41,8 +41,11 @@ const userSchema = new mongoose.Schema({
         default: "This is default description of the user!",
     },
     skills: {
-        type: [String],
+        type: [String], 
     },
+},
+{
+    timestamps: true,
 });
 
 const User = mongoose.model("User", userSchema);
