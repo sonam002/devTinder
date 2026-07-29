@@ -5,9 +5,10 @@ const app = express(); // instance of express
 const User = require("./models/user");
 const { validateSignUpData } = require("./utils/validation");
 const bcrypt = require("bcrypt");
-
+const cookieParser = require("cookie-parser");
 //this express middleware reads json object converts it to js object and adds js object back to line 12 which is req.body
 app.use(express.json()); 
+app.use(cookieParser()); //miidleware to read cookies back 
 
 //save userObj in User collection in database
 app.post("/signup", async (req, res) => { 
@@ -45,6 +46,12 @@ app.post("/login", async (req, res) => {
     }
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if(isPasswordValid){
+
+      //Create JWT Token
+
+      //Add the token to cookie and send the response back to the user
+      res.cookie("token", "sdkjhdvkjsdahnkdjksfsdgga");
+
       res.send("Login Successful!");
     }else{
       res.send("Password is invalid");
@@ -54,7 +61,12 @@ app.post("/login", async (req, res) => {
     }
 });
 
+app.get("/profile", async (req, res) => {
+  const cookies = req.cookies;
 
+  console.log(cookies);
+  res.send("Reading cookie");
+})
 
 
 //Get user by email
