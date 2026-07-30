@@ -63,94 +63,17 @@ app.post("/login", async (req, res) => {
     }
 });
 
-app.get("/profile", async (req, res) => {
+app.get("/profile", userAuth, async (req, res) => {
   try{
-    const cookies = req.cookies;
-    const { token } = cookies;
-    if(!token){
-      throw new Error("Invalid token");
-    }
-    //validate my token
-    const decodedMessage = await jwt.verify(token, "DEV@Tinder$790");
-    console.log(decodedMessage);
-    const { _id } = decodedMessage;
-    console.log("Logged In user is:" + _id);
 
-    const user = await User.findById(_id);
-    if(!user){
-      throw new Error("User does not exist");
-    }
+    //now we can remove redundant code as it is there in auth.js
+    const user = req.user;
     res.send(user);
   }catch(err){
       res.status(400).send("ERROR:" + err.message);
     }
 });
 
-
-//Get user by email
-app.get("/user", async (req, res) => {
-  const userEmail = req.body.emailId;
-  try{
-    const user = await User.findOne({emailId: userEmail});
-    if(!user){
-      res.status(404).send("User not found");
-    }else{
-      res.send(user);
-    }
-    // if(users.length === 0){ //by default if user is not present then return [] empty object
-    //   res.status(404).send("User not found");
-    // }else{
-    //   res.send(users);
-    // }
-  }catch(err){
-    res.status(400).send("something went wrong");
-  }
-});
-
-// Feed API - GET /feed - get all the users from database
-app.get("/feed", async (req, res) => {
-  try{
-    const users = await User.find({});
-      res.send(users);
-  }catch(err){
-    res.status(400).send("something went wrong");
-  }
-});
-
-//Delete a user from database
-app.delete("/user", async (req, res) => {
-  const userId = req.body.userId;
-  try{
-    const user = await User.findByIdAndDelete(userId);
-    res.send("User deleted Successfully");
-  }catch(err){
-    res.status(400).send("Something went wrong");
-  }
-})
-
-//Update data of the user - Any other data apart from schema will be ignored by mongo and not be updated
-app.patch("/user/:userId", async (req, res) => {
-  const userId = req.params?.userId; //instead or req.body.userId we can put params and pass userId in URL cause its not good to update userId
-  const data = req.body;
-
-  try {
-    const ALLOWED_UPDATES = ["photoUrl", "about", "gender", "age", "skills"];
-    const isUpdateAllowed = Object.keys(data).every((k) =>
-      ALLOWED_UPDATES.includes(k)
-    );
-    if(!isUpdateAllowed){
-      throw new Error("Update not allowed!");
-    }
-    const user = await User.findByIdAndUpdate({_id : userId}, data, {
-      returnDocument: "before",
-      runValidators: true, //it allows to update existing data
-    });
-    console.log(user);
-    res.send("User updated successfully");
-  }catch(err){
-    res.status(400).send("Update failed:" + err.message);
-  }
-})
 
 connectDB()
     .then(() => {
