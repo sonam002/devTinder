@@ -7,6 +7,7 @@ const { validateSignUpData } = require("./utils/validation");
 const bcrypt = require("bcrypt");
 const cookieParser = require("cookie-parser");
 const jwt = require("jsonwebtoken");
+const { userAuth } = require("./middlewares/auth");
 //this express middleware reads json object converts it to js object and adds js object back to line 12 which is req.body
 app.use(express.json()); 
 app.use(cookieParser()); //miidleware to read cookies back 
