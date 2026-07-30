@@ -65,7 +65,6 @@ app.post("/login", async (req, res) => {
 
 app.get("/profile", userAuth, async (req, res) => {
   try{
-
     //now we can remove redundant code as it is there in auth.js
     const user = req.user;
     res.send(user);
@@ -74,6 +73,11 @@ app.get("/profile", userAuth, async (req, res) => {
     }
 });
 
+app.post("/sendConnectionRequest", async (req, res) => {
+  //Sending a connection request
+  console.log("Sending a connection request");
+  res.send("Connection Request Sent !");
+});
 
 connectDB()
     .then(() => {
