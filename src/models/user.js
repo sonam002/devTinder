@@ -59,5 +59,13 @@ const userSchema = new mongoose.Schema({
     timestamps: true,
 });
 
+userSchema.methods.getJWT = async function () { // no arrow fun as with this keyword we cannot use 
+    const user = this;
+    const token = await jwt.sign({ _id :  user._id }, "DEV@Tinder$790", {
+        expiresIn: "0d",
+    });
+    return token;
+};
+
 const User = mongoose.model("User", userSchema);
 module.exports = User;
