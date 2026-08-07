@@ -2,21 +2,28 @@ const express = require("express")
 //import connectDB from database.js
 const connectDB = require("./config/database");
 const app = express(); // instance of express
-const bcrypt = require("bcrypt");
 const cookieParser = require("cookie-parser");
-const jwt = require("jsonwebtoken");
-const { userAuth } = require("./middlewares/auth");
+
 //this express middleware reads json object converts it to js object and adds js object back to line 12 which is req.body
 app.use(express.json()); 
 app.use(cookieParser()); //miidleware to read cookies back 
+
+const authRouter = require("./routes/auth");
+const profileRouter = require("./routes/profile");
+const requestRouter = require("./routes/request");
+
+app.use("/", authRouter);
+app.use("/", profileRouter);
+app.use("/", requestRouter);
 
 connectDB()
     .then(() => {
       console.log("Database connection established");
       app.listen(3000, () => {
-      console.log("Server is listening successfully on port 3000");
+        console.log("Server is listening successfully on port 3000");
       });
     })
     .catch((err) => {
-        console.log("Database cannot be connected!");
+        console.error("Database cannot be connected:", err);
+        process.exit(1);
     });
