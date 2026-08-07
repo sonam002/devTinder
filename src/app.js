@@ -2,8 +2,6 @@ const express = require("express")
 //import connectDB from database.js
 const connectDB = require("./config/database");
 const app = express(); // instance of express
-const User = require("./models/user");
-const { validateSignUpData } = require("./utils/validation");
 const bcrypt = require("bcrypt");
 const cookieParser = require("cookie-parser");
 const jwt = require("jsonwebtoken");

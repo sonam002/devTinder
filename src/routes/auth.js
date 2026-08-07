@@ -1,7 +1,10 @@
 const express = require("express");
-const router = express.Router();
+const authrouter = express.Router();
 
-router.post("/signup", async (req, res) => { 
+const { validateSignUpData } = require("./utils/validation");
+const User = require("./models/user");
+
+authRouter.post("/signup", async (req, res) => { 
     try{
       //Validation of data
     validateSignUpData(req);
@@ -26,7 +29,7 @@ router.post("/signup", async (req, res) => {
     }
 });
 
-router.post("/login", async (req, res) => {
+authRouter.post("/login", async (req, res) => {
   try{
     const { emailId, password } = req.body;
 
