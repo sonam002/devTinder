@@ -1,7 +1,7 @@
 const express = require("express");
-const profileRouter = express.Router();
+const router = express.Router();
 
-profileRouter.get("/profile", userAuth, async (req, res) => {
+router.get("/profile", userAuth, async (req, res) => {
   try{
     //now we can remove redundant code as it is there in auth.js
     const user = req.user;

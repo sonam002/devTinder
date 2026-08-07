@@ -1,7 +1,7 @@
 const express = require("express");
-const authrouter = express.Router();
+const router = express.Router();
 
-authRouter.post("/signup", async (req, res) => { 
+router.post("/signup", async (req, res) => { 
     try{
       //Validation of data
     validateSignUpData(req);
@@ -26,7 +26,7 @@ authRouter.post("/signup", async (req, res) => {
     }
 });
 
-authRouter.post("/login", async (req, res) => {
+router.post("/login", async (req, res) => {
   try{
     const { emailId, password } = req.body;
 
