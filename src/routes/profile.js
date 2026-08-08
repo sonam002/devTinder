@@ -26,10 +26,12 @@ profileRouter.patch("/profile/edit", userAuth, async(req, res) => {
 
     await loggedInUser.save(); //without this line data won't be updated in database
 
-    res.send(`${loggedInUser.firstName}, your profile updated successfully`);
+    res.json({ message: `${loggedInUser.firstName}, your profile updated successfully`,
+      data: loggedInUser,
+    });
   }catch(err){
     res.status(400).send("ERROR : " + err.message);
   } 
-});
+}); 
 
 module.exports = profileRouter;
